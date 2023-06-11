@@ -1,0 +1,21 @@
+version: '3'
+services:
+  mongo:
+    image: flqw/docker-mongo-local-replicaset
+    container_name: mongo
+    ports:
+      - "27001:27001"
+      - "27002:27002"
+      - "27003:27003"
+    volumes:
+      - "./mongo_data:/data"
+  api:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    restart: always 
+    depends_on:
+      - mongo
+    volumes:
+      - './:/app'
+      - '/app/node_modules'
